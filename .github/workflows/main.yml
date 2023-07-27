@@ -27,4 +27,7 @@ jobs:
     - name: login
       run: gcloud auth activate-service-account '${{ secrets.SA_GOOGLE }}' --key-file=./key.json
       
+    - name: chek cloud
+      run: gcloud auth list
+      
       
