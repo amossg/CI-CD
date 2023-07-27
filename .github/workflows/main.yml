@@ -1,0 +1,30 @@
+name: var test
+
+on:
+  workflow_dispatch
+  #push:
+    #branches: [ "main" ]
+
+
+jobs:
+  test-var:
+    name: test
+    runs-on: ubuntu-latest
+    environment: production
+    
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+ 
+         
+    - name: echo
+      run: echo '${{ secrets.GCP_KEY }}' >> key.json
+      
+    - name: login
+      run: gcloud auth activate-service-account '${{ secrets.SA_GOOGLE }}' --key-file=./key.json
+      
+      
