@@ -48,10 +48,10 @@ jobs:
       run: terraform apply -auto-approve
 
     - name: change chmod 
-      run: chmod +x data-from-tf-to-sectrt.sh
+      run: chmod +x data-from-tf-to-secret.sh
       
     - name: ctrate secret
-      run: bash data-from-tf-to-sectrt.sh
+      run: bash data-from-tf-to-secret.sh
       
     - name: Login to GAR
       uses: docker/login-action@v2
