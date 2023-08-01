@@ -47,10 +47,11 @@ jobs:
     - name: terraform apply
       run: terraform apply -auto-approve
 
-    - name: create custom-resource
-      run: |-
-        chmod +x data-from-tf-to-sectrt.sh\
-        ./data-from-tf-to-sectrt.sh
+    - name: change chmod 
+      run: chmod +x data-from-tf-to-sectrt.sh
+      
+    - name: ctrate secret
+      run: bash data-from-tf-to-sectrt.sh
       
     - name: Login to GAR
       uses: docker/login-action@v2
@@ -72,15 +73,17 @@ jobs:
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           
-
     - name: Publish
       run: |-
         docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
         
-    - name: Deploy
+    - name: accept secret
       run: |-
           sed -i -e 's/GITHUB_SHA/'"$GITHUB_SHA"'/' ${{ github.workspace }}/secret.yaml
-          kubectl apply -f ${{ github.workspace }}/custom-resource-definition.yaml\
+          kubectl apply -f ${{ github.workspace }}/secret.yaml
+          
+    - name: Deploy
+      run: |-
           sed -i -e 's/GITHUB_SHA/'"$GITHUB_SHA"'/' ${{ github.workspace }}/deployment-and-service.yaml
           kubectl apply -f ${{ github.workspace }}/deployment-and-service.yaml
       
