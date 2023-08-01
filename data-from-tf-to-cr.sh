@@ -12,7 +12,8 @@ cat <<EOF > custom-resource.yaml
 apiVersion: pgconn.flask.me/v1
 kind: PgConn
 metadata:
-  name: my-postgres-connection
+  name: flask-db-deployment
+  namespace: default
 spec:
   host: $db_public_ip
   database: $database_name
