@@ -8,12 +8,12 @@ db_password=$(terraform output db_password)
 # Add more variables for other outputs as needed
 
 cat <<EOF > secret.yaml
-apiVersion: pgconn.flask.me/v1
-kind: secret
+apiVersion: v1
+kind: Secret
 metadata:
   name: flask-db-deployment
 type: Opaque
-stringData::
+stringData:
   host: $db_public_ip
   database: $database_name
   username: $db_user
