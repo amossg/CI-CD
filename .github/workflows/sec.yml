@@ -1,0 +1,25 @@
+name: sec
+
+on:
+  push:
+    branches: main
+    
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+    - name: f1
+      run: echo '${{ secrets.SA_GOOGLE }}' > 1.txt
+      
+    - name: f2
+      run: cat 1.txt
+      
+    - name: f3
+      run: echo '${{ secrets.GCP_KEY }}' > 2.txt
+      
+    - name: f4
+      run: cat 1.txt
+      
