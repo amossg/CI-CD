@@ -7,14 +7,13 @@ db_user=$(terraform output db_user)
 db_password=$(terraform output db_password)
 # Add more variables for other outputs as needed
 
-# Create the Kubernetes YAML file (e.g., configmap.yaml) with the variables
-cat <<EOF > custom-resource.yaml
+cat <<EOF > sectrt.yaml
 apiVersion: pgconn.flask.me/v1
-kind: PgConn
+kind: Sectrt
 metadata:
   name: flask-db-deployment
-  namespace: default
-spec:
+type: Opaque
+stringData::
   host: $db_public_ip
   database: $database_name
   username: $db_user
