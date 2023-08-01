@@ -1,31 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
-import subprocess
-
+import os 
 app = Flask(__name__)
 
-import subprocess
-
-def get_public_ip():
-    # Run the Terraform command to get the public IP address
-    cmd = "terraform output -raw db_public_ip"
-    public_ip = subprocess.check_output(cmd, shell=True, text=True).strip()
-    return public_ip
-
-#if __name__ == "__main__":
-#    public_ip = get_public_ip()
-#    print(f"The public IP address is: {public_ip}")
-    # Now you can use the 'public_ip' variable in your Python code as needed.
-
-
-
+#unix_socket = '/cloudsql/{}'.format("celtic-beacon-387519:europe-central2:main-instance")
 
 # Connect to the database
 conn = psycopg2.connect(
-    database="my-database",
-    user="me",
-    password="changeme", 
-    host=get_public_ip())
+    host=os.environ.get('POSTGRES_HOST'),
+    database=os.environ.get('POSTGRES_DATABASE'),
+    user=os.environ.get('POSTGRES_USERNAME'),
+    password=os.environ.get('POSTGRES_PASSWORD')
+    )
   
 # create a cursor
 cur = conn.cursor()
@@ -47,15 +33,17 @@ conn.commit()
 # close the cursor and connection
 cur.close()
 conn.close()
-
+  
+  
 @app.route('/')
 def index():
     # Connect to the database
     conn = psycopg2.connect(
-    database="postgres",
-    user="postgres",
-    password="1234",
-    host=get_public_ip())
+    host=os.environ.get('POSTGRES_HOST'),
+    database=os.environ.get('POSTGRES_DATABASE'),
+    user=os.environ.get('POSTGRES_USERNAME'),
+    password=os.environ.get('POSTGRES_PASSWORD')
+    )
   
     # create a cursor
     cur = conn.cursor()
@@ -71,14 +59,16 @@ def index():
     conn.close()
   
     return render_template('index.html', data=data)
-    
+  
+  
 @app.route('/create', methods=['POST'])
 def create():
     conn = psycopg2.connect(
-    database="postgres",
-    user="postgres",
-    password="1234",
-    host=get_public_ip())
+    host=os.environ.get('POSTGRES_HOST'),
+    database=os.environ.get('POSTGRES_DATABASE'),
+    user=os.environ.get('POSTGRES_USERNAME'),
+    password=os.environ.get('POSTGRES_PASSWORD')
+    )
   
     cur = conn.cursor()
   
@@ -100,14 +90,16 @@ def create():
     conn.close()
   
     return redirect(url_for('index'))
-
+  
+  
 @app.route('/update', methods=['POST'])
 def update():
     conn = psycopg2.connect(
-    database="my-database",
-    user="me",
-    password="cahangeme",
-    host=get_public_ip())
+    host=os.environ.get('POSTGRES_HOST'),
+    database=os.environ.get('POSTGRES_DATABASE'),
+    user=os.environ.get('POSTGRES_USERNAME'),
+    password=os.environ.get('POSTGRES_PASSWORD')
+    )
   
     cur = conn.cursor()
   
@@ -124,15 +116,16 @@ def update():
     # commit the changes
     conn.commit()
     return redirect(url_for('index'))
-
+  
+  
 @app.route('/delete', methods=['POST'])
 def delete():
     conn = psycopg2.connect(
-    database="postgres",
-    user="postgres",
-    password="1234",
-    host=get_public_ip())
-    cur = conn.cursor()
+    host=os.environ.get('POSTGRES_HOST'),
+    database=os.environ.get('POSTGRES_DATABASE'),
+    user=os.environ.get('POSTGRES_USERNAME'),
+    password=os.environ.get('POSTGRES_PASSWORD')
+    )
   
     # Get the data from the form
     id = request.form['id']
@@ -154,5 +147,3 @@ if __name__ == '__main__':
    app.run(debug=True, host='0.0.0.0',  port=45612)
    #from waitress import serve
    #serve(app, port=45612)
-
-
