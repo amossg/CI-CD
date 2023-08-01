@@ -27,14 +27,26 @@ spec:
         ports:
         - containerPort: 45612
         env:
-        - name: POSTGRES_HOST
-          value: "34.118.26.199"
-        - name: POSTGRES_DATABASE
-          value: "my-database"
-        - name: POSTGRES_USERNAME
-          value: "me"
-        - name: POSTGRES_PASSWORD
-          value: "changeme"
+          - name: POSTGRES_HOST
+            valueFrom:
+              secretKeyRef:
+                name: flask-db-deployment
+                key: host
+          - name: POSTGRES_DATABASE
+            valueFrom: 
+              secretKeyRef: 
+                name: flask-db-deployment
+                key: database
+          - name: POSTGRES_USERNAME
+            valueFrom: 
+              secretKeyRef: 
+                name: flask-db-deployment
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom: 
+              secretKeyRef: 
+                name: flask-db-deployment
+                key: password
 ---
 apiVersion: v1
 kind: Service
