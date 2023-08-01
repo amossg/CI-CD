@@ -35,7 +35,7 @@ resource "google_compute_subnetwork" "my-subnetwork" {
 module "gke" {
   source            = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
   project_id        = var.project_id
-  name              = "${var.cluster_name}-${var.env_name}"
+  name              = "${var.cluster_name}"
   regional          = false
   region            = var.region
   zones             = ["europe-central2-b"]
