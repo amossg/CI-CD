@@ -50,7 +50,7 @@ jobs:
 
       
     - name: Build
-      run:  docker build -tag "europe-central2-docker.pkg.dev/celtic-beacon-387519/amossg-docker/my-flsak-db-pg:v1" 
+      run:  docker build -t europe-central2-docker.pkg.dev/celtic-beacon-387519/amossg-docker/my-flsak-db-pg:v1 .
           
     - name: Publish
       run: docker push "europe-central2-docker.pkg.dev/celtic-beacon-387519/amossg-docker/my-flsak-db-pg:v1"
