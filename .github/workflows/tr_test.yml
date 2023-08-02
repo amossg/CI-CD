@@ -126,15 +126,15 @@ jobs:
         location: 'europe-central2-b'
         
         
-    - name: pull
-      run: kubectl run pull --image europe-central2-docker.pkg.dev/celtic-beacon-387519/amossg-docker/my-flsak-db-pg
+  #  - name: pull
+    #  run: kubectl run pull --image europe-central2-docker.pkg.dev/celtic-beacon-387519/amossg-docker/my-flsak-db-pg
       
-    - name: sleep 
-      run: sleep 90
+ #   - name: sleep 
+#      run: sleep 90
 
     - name: Deploy
       run: kubectl apply -f deployment-and-service.yaml
       
-    - name: delete
-      run: kubectl delete pod pull
+#    - name: delete
+#     run: kubectl delete pod pull
 
