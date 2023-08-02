@@ -32,11 +32,11 @@ jobs:
       uses: actions/checkout@v3
  
          
-#   - name: echo
-#      run: echo '${{ secrets.GCP_KEY }}' >> key.json
+    - name: echo
+      run: echo '${{ secrets.GCP_KEY }}' >> key.json
       
-#   - name: login
-#      run: gcloud auth activate-service-account '${{ secrets.SA_GOOGLE }}' --key-file=./key.json
+    - name: login
+      run: gcloud auth activate-service-account '${{ secrets.SA_GOOGLE }}' --key-file=./key.json
       
       
   #  - name: Login to GAR
