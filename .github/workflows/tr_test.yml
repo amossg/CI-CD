@@ -83,21 +83,27 @@ jobs:
         
     - name: accept secret
       run: kubectl apply -f secret.yaml
+      
+    - name: setup ingres controller
+      run: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+      
+    - name: Deploy
+      run: kubectl apply -f deployment-and-service.yaml
         
  
-  deploy:
-    name: deploy
-    runs-on: ubuntu-latest
-    needs: build
-    environment: production
+#  deploy:
+ #   name: deploy
+  #  runs-on: ubuntu-latest
+   # needs: build
+    #environment: production
     
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+    #permissions:
+     # contents: 'read'
+      #id-token: 'write'
       
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+   # steps:
+   # - name: Checkout
+    #  uses: actions/checkout@v3
  
          
 #   - name: echo
@@ -114,16 +120,16 @@ jobs:
   #      username: _json_key
   #      password: ${{ secrets.GCP_KEY }}
         
-    - name: Set up GKE credentials
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: '${{ secrets.GCP_KEY }}'
+  #  - name: Set up GKE credentials
+   #   uses: 'google-github-actions/auth@v1'
+   #   with:
+   #     credentials_json: '${{ secrets.GCP_KEY }}'
         
-    - name: gke
-      uses: 'google-github-actions/get-gke-credentials@v1'
-      with:
-        cluster_name: 'gke-terraform'
-        location: 'europe-central2-b'
+  #  - name: gke
+  #    uses: 'google-github-actions/get-gke-credentials@v1'
+  #    with:
+   #     cluster_name: 'gke-terraform'
+    #    location: 'europe-central2-b'
         
         
   #  - name: pull
@@ -132,8 +138,7 @@ jobs:
  #   - name: sleep 
 #      run: sleep 90
 
-    - name: Deploy
-      run: kubectl apply -f deployment-and-service.yaml
+
       
 #    - name: delete
 #     run: kubectl delete pod pull
