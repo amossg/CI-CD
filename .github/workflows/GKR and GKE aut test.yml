@@ -52,7 +52,7 @@ jobs:
     - name: Build
       run: |-
         docker build \
-          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$latest" \
+          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest" \
           .
           
     - name: Publish
