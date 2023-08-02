@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: my-flsak-db-pg 
-        image: my-flsak-db-pg
+        image: my-flsak-db-pg:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 45612
