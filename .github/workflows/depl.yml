@@ -57,7 +57,8 @@ jobs:
         cluster_name: 'gke-terraform'
         location: 'europe-central2-b'
 
-        
+    - name: add plug
+      run: gcloud components install gke-gcloud-auth-plugin
     - name: cc con
       run: gcloud container clusters get-credentials gke-terraform --zone europe-central2-b --project celtic-beacon-387519
     - name: Deploy
