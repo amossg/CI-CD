@@ -58,7 +58,16 @@ jobs:
         location: 'europe-central2-b'
 
     - name: add plug
-      run: gcloud components install gke-gcloud-auth-plugin
+      run: |-
+        echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
+        sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+        gcloud components install gke-gcloud-auth-plugin \
+        dev1s@webserver:~$ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+        sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -\
+        sudo apt-get update \
+        sudo apt-get install google-cloud-cli \
+        gcloud components install gke-gcloud-auth-plugin
+        
     - name: cc con
       run: gcloud container clusters get-credentials gke-terraform --zone europe-central2-b --project celtic-beacon-387519
     - name: Deploy
