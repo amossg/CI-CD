@@ -39,12 +39,12 @@ jobs:
       run: gcloud auth activate-service-account '${{ secrets.SA_GOOGLE }}' --key-file=./key.json
       
       
-  #  - name: Login to GAR
-  #    uses: docker/login-action@v2
-  #    with:
-  #      registry: europe-central2-docker.pkg.dev
-  #      username: _json_key
-  #      password: ${{ secrets.GCP_KEY }}
+    - name: Login to GAR
+      uses: docker/login-action@v2
+      with:
+        registry: europe-central2-docker.pkg.dev
+        username: _json_key
+        password: ${{ secrets.GCP_KEY }}
         
     - name: Set up GKE credentials
       uses: 'google-github-actions/auth@v1'
