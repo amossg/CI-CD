@@ -23,7 +23,7 @@ spec:
       containers:
       - name: my-flsak-db-pg 
         image: europe-central2-docker.pkg.dev/celtic-beacon-387519/amossg-docker/my-flsak-db-pg
-        imagePullPolicy: Never
+       # imagePullPolicy: Never
         ports:
         - containerPort: 45612
         env:
