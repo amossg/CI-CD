@@ -39,12 +39,12 @@ jobs:
       run: gcloud auth activate-service-account '${{ secrets.SA_GOOGLE }}' --key-file=./key.json
       
       
-    - name: Login to GAR
-      uses: docker/login-action@v2
-      with:
-        registry: europe-central2-docker.pkg.dev
-        username: _json_key
-        password: ${{ secrets.GCP_KEY }}
+  #  - name: Login to GAR
+  #    uses: docker/login-action@v2
+  #    with:
+  #      registry: europe-central2-docker.pkg.dev
+  #      username: _json_key
+  #      password: ${{ secrets.GCP_KEY }}
         
     - name: Set up GKE credentials
       uses: 'google-github-actions/auth@v1'
@@ -57,19 +57,6 @@ jobs:
         cluster_name: 'gke-terraform'
         location: 'europe-central2-b'
 
-    - name: add plug
-      run: |-
-        echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
-        sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
-        gcloud components install gke-gcloud-auth-plugin \
-        dev1s@webserver:~$ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-        sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -\
-        sudo apt-get update \
-        sudo apt-get install google-cloud-cli \
-        gcloud components install gke-gcloud-auth-plugin
-        
-    - name: cc con
-      run: gcloud container clusters get-credentials gke-terraform --zone europe-central2-b --project celtic-beacon-387519
     - name: Deploy
       run: kubectl apply -f deployment-and-service.yaml
       
