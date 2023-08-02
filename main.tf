@@ -43,6 +43,7 @@ module "gke" {
   subnetwork        = google_compute_subnetwork.my-subnetwork.name
   ip_range_pods     = "ip-range-pods-name"
   ip_range_services = "ip-range-services-name"
+  create_service_account = false
   node_pools = [
     {
       name           = "node-pool"
@@ -52,7 +53,7 @@ module "gke" {
       max_count      = var.maxnode
       local_ssd_count = 0
       disk_size_gb   = var.disksize
-      service_account = "278783418675-compute@developer.gserviceaccount.com"
+      service_account = "terraform-sa@celtic-beacon-387519.iam.gserviceaccount.com"
       preemptible    = false
       auto_repair    = false
       auto_upgrade   = true
