@@ -1,0 +1,54 @@
+name: GKR and GKE aut test
+
+on:
+  workflow_dispatch
+  #push:
+    #branches: [ "main" ]
+
+
+env:
+  PROJECT_ID: celtic-beacon-387519
+  GAR_LOCATION: europe-central2 # TODO: update region of the Artifact Registry
+  GKE_CLUSTER: gke-terraform    # TODO: update to cluster name
+  GKE_ZONE: europe-central2-b   # TODO: update to cluster zone
+  DEPLOYMENT_NAME: flask-app-deployment # TODO: update to deployment name
+  REPOSITORY: amossg-docker # TODO: update to Artifact Registry docker repository
+  IMAGE: my-flsak-db-pg
+  
+jobs:
+  test-var:
+    name: test
+    runs-on: ubuntu-latest
+    environment: production
+    
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Login to GAR
+      uses: docker/login-action@v2
+      with:
+        registry: europe-central2-docker.pkg.dev
+        username: _json_key
+        password: ${{ secrets.GCP_KEY }}
+    
+    - name: Set up GKE credentials
+      uses: google-github-actions/get-gke-credentials@v0
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+      
+    - name: Build
+      run: |-
+        docker build \
+          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          
+    - name: Publish
+      run: |-
+        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
