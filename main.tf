@@ -52,6 +52,7 @@ module "gke" {
       max_count      = var.maxnode
       local_ssd_count = 0
       disk_size_gb   = var.disksize
+      service_account = "278783418675-compute@developer.gserviceaccount.com"
       preemptible    = false
       auto_repair    = false
       auto_upgrade   = true
