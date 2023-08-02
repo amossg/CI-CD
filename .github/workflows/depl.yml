@@ -58,7 +58,8 @@ jobs:
         location: 'europe-central2-b'
 
         
-          
+    - name: cc con
+      run: gcloud container clusters get-credentials gke-terraform --zone europe-central2-b --project celtic-beacon-387519
     - name: Deploy
       run: kubectl apply -f deployment-and-service.yaml
       
