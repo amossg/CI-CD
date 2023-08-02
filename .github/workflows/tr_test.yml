@@ -18,8 +18,8 @@ env:
 
 
 jobs:
-  test-var:
-    name: test
+  build:
+    name: prepair all to deploy
     runs-on: ubuntu-latest
     environment: production
     
@@ -70,9 +70,7 @@ jobs:
       with:
         cluster_name: 'gke-terraform'
         location: 'europe-central2-b'
-    
-
-      
+        
     - name: Build
       run: |-
         docker build \
@@ -85,11 +83,47 @@ jobs:
         
     - name: accept secret
       run: kubectl apply -f secret.yaml
-          
+        
+ 
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    needs: build
+    environment: production
+    
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+ 
+         
+#   - name: echo
+#      run: echo '${{ secrets.GCP_KEY }}' >> key.json
+      
+#   - name: login
+#      run: gcloud auth activate-service-account '${{ secrets.SA_GOOGLE }}' --key-file=./key.json
+      
+      
+  #  - name: Login to GAR
+  #    uses: docker/login-action@v2
+  #    with:
+  #      registry: europe-central2-docker.pkg.dev
+  #      username: _json_key
+  #      password: ${{ secrets.GCP_KEY }}
+        
+    - name: Set up GKE credentials
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GCP_KEY }}'
+        
+    - name: gke
+      uses: 'google-github-actions/get-gke-credentials@v1'
+      with:
+        cluster_name: 'gke-terraform'
+        location: 'europe-central2-b'
+
     - name: Deploy
       run: kubectl apply -f deployment-and-service.yaml
-      
-      
-  
-      
-      
