@@ -35,12 +35,19 @@ jobs:
         registry: europe-central2-docker.pkg.dev
         username: _json_key
         password: ${{ secrets.GCP_KEY }}
-    
+        
     - name: Set up GKE credentials
-      uses: google-github-actions/get-gke-credentials@v0
+      uses: 'google-github-actions/auth@v1'
       with:
-        cluster_name: '${{ env.GKE_CLUSTER }}'
-        location: '${{ env.GKE_ZONE }}'
+        credentials_json: '${{ secrets.GCP_KEY }}'
+        
+    - name: gke
+      uses: 'google-github-actions/get-gke-credentials@v1'
+      with:
+        cluster_name: 'gke-terraform'
+        location: 'europe-central2-b'
+    
+
       
     - name: Build
       run: |-
