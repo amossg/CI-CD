@@ -126,6 +126,8 @@ def delete():
     user=os.environ.get('POSTGRES_USERNAME'),
     password=os.environ.get('POSTGRES_PASSWORD')
     )
+
+    cur = conn.cursor()
   
     # Get the data from the form
     id = request.form['id']
