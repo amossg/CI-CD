@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    kubernetes.io/ingres.class: gke
+    kubernetes.io/ingress.allow-http: "true"
+    cert-manager.io/issuer: letsencrypt-staging
+spec:
+  tls:
+    - secretName: web-ssl
+      hosts:
+        - amossg.tech
+  rules:
+   - host: amossg.tech
+     http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: flask-db-service
+                port:
+                  number: 80
