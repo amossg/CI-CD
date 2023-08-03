@@ -89,5 +89,6 @@ jobs:
       
     - name: Deploy
       run: kubectl apply -f deployment-and-service.yaml
-        
- 
+      
+    - name: apply ingres
+      run: kubectl apply -f ingres.yaml
