@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: main-ingress
+  name: ingress
   annotations:
-    kubernetes.io/ingres.class: nginx
-spec:
+    kubernetes.io/ingres.class: gke
+    kubernetes.io/ingress.allow-http: "true"
   rules:
-   - host: app.amossg.tech
+   - host: amossg.tech
      http:
         paths:
           - pathType: Prefix
