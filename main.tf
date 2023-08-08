@@ -10,6 +10,13 @@ resource "local_file" "kubeconfig" {
   content  = module.gke_auth.kubeconfig_raw
   filename = "kubeconfig-${var.env_name}"
 }
+
+data "google_secret_manager_secret_version" "db_password_secret" {
+
+ secret = "projects/278783418675/secrets/db-password-secret"
+
+}
+
 resource "google_compute_network" "private-network" {
   name         = "gke-network"
   auto_create_subnetworks = false
@@ -84,7 +91,7 @@ resource "google_sql_database" "database" {
 resource "google_sql_user" "user" {
   name     = "me"
   instance = google_sql_database_instance.main.name
-  password = "changeme"
+  password = data.google_secret_manager_secret_version.db_password_secret.secret_data
 }
 
 output "db_public_ip" {
