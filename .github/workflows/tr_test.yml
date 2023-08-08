@@ -83,10 +83,7 @@ jobs:
         
     - name: accept secret
       run: kubectl apply -f secret.yaml
-      
-    - name: setup ingres controller
-      run: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
-      
+           
     - name: Deploy
       run: kubectl apply -f deployment-and-service.yaml
       
