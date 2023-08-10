@@ -5,6 +5,7 @@ metadata:
   annotations:
     kubernetes.io/ingres.class: gke
     kubernetes.io/ingress.allow-http: "true"
+spec:
   rules:
    - host: amossg.tech
      http:
