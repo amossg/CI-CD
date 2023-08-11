@@ -65,7 +65,7 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCP_KEY }}'
         
-    - name: gke
+    - name: GKE
       uses: 'google-github-actions/get-gke-credentials@v1'
       with:
         cluster_name: 'gke-terraform'
@@ -81,11 +81,15 @@ jobs:
       run: |-
         docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest"
         
-    - name: accept secret
+    - name: Accept secret
       run: kubectl apply -f secret.yaml
            
     - name: Deploy
       run: kubectl apply -f deployment-and-service.yaml
       
-    - name: install cert-manager
+    - name: Install cert-manager
       run: kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
+      
+    - name: Apply ingres
+      run: kubectl apply ingres.yaml
+
